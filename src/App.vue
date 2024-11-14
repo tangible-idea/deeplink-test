@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <h1 class="title">Deeplink test</h1>
+
     <div class="button-row">
-      <button class="btn" @click="navigateTo('shlic://SHLNavigator.open?id=CDCLGFR0100MM01&amp;param={\'PLAY\'}')">운세</button>
+      <button class="btn" @click="navigateTo('shlic://SHLNavigator.open?id=CDCLGFR0100MM01&amp;param={\'PLAY\'}')">운세 (push)</button>
       <span class="url-text">shlic://SHLNavigator.open?id=CDCLGFR0100MM01&amp;param={'PLAY'}</span>
     </div>
     <div class="button-row">
@@ -13,10 +14,31 @@
       <button class="btn" @click="navigateTo('shlic://SHLSharedPlatform.open?id=ACMCO29010010&amp;param=%7B%22pId%22%3A%22ABFSF01020010P03%22%7D')">수퍼솔 이벤트2</button>
       <span class="url-text">shlic://SHLSharedPlatform.open?id=ACMCO29010010&amp;param=%7B%22pId%22%3A%22ABFSF01020010P03%22%7D</span>
     </div>
+
+    <div>
+        <br><br><br><br><br>
+    </div>
+    
+    <!-- EditText1 for screen name -->
+    <div class="input-row">
+      <label for="screenName">화면명</label>
+      <input type="text" id="screenName" v-model="screenName" class="input-text" placeholder="Enter screen name (?id=CDCBCCO0700NP02)" />
+    </div>
+
+    <!-- EditText2 for parameter -->
+    <div class="input-row">
+      <label for="param">파라미터</label>
+      <input type="text" id="param" v-model="param" class="input-text" placeholder="Enter parameter (optional, &amp;param=something)" />
+    </div>
+
+    <!-- Generated Deeplink -->
     <div class="button-row">
-      <input type="text" v-model="customUrl" class="input-text" placeholder="shlic://"/>
-      <button class="btn" @click="navigateTo(customUrl)">위 입력한 딥링크로 이동</button>
-      <span class="url-text">{{ customUrl }}</span>
+      <span class="url-text">{{ generatedDeeplink }}</span>
+    </div>
+
+    <!-- Button to navigate to the generated Deeplink -->
+    <div class="button-row">
+      <button class="btn" @click="navigateTo(generatedDeeplink)">이동하기</button>
     </div>
   </div>
 </template>
@@ -25,15 +47,30 @@
 export default {
   data() {
     return {
-      customUrl: '' // The text input for the custom URL
+      screenName: '', // Variable for the screen name (EditText1)
+      param: ''       // Variable for the parameter (EditText2)
     };
+  },
+  computed: {
+    // Computed property to generate the deeplink based on screenName and param
+    generatedDeeplink() {
+      if (this.screenName) {
+        // If param is provided, include it in the URL; otherwise, omit it
+        return this.param
+          ? `shlic://SHLNavigator.open?id=${this.screenName}&param=${this.param}`
+          : `shlic://SHLNavigator.open?id=${this.screenName}`;
+      } else {
+        return 'Enter a screen name';
+      }
+    }
   },
   methods: {
     navigateTo(url) {
-      if (url) {
+      // Only navigate if the URL is valid (i.e., not the placeholder text)
+      if (url.startsWith('shlic://')) {
         window.location.href = url;
       } else {
-        alert('URL을 입력하세요.');
+        alert('유효한 화면명을 입력하세요.');
       }
     }
   }
@@ -60,6 +97,29 @@ export default {
   color: #333;
 }
 
+.input-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  width: 100%;
+  max-width: 500px;
+}
+
+label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.input-text {
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
 .button-row {
   display: flex;
   flex-direction: column;
@@ -77,23 +137,12 @@ export default {
   background-color: #f0f0f0;
   transition: background-color 0.2s ease;
   width: 100%;
-  max-width: 100%;
+  max-width: 500px;
   box-sizing: border-box;
 }
 
 .btn:hover {
   background-color: #e0e0e0;
-}
-
-.input-text {
-  padding: 10px;
-  font-size: 16px;
-  width: 100%;
-  max-width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
 }
 
 .url-text {
