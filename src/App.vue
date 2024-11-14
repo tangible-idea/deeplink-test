@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1 class="title">Deeplink test</h1>
     <div class="button-row">
       <button class="btn" @click="navigateTo('shlic://SHLNavigator.open?id=CDCLGFR0100MM01&amp;param={\'PLAY\'}')">운세</button>
       <span class="url-text">shlic://SHLNavigator.open?id=CDCLGFR0100MM01&amp;param={'PLAY'}</span>
@@ -13,17 +14,27 @@
       <span class="url-text">shlic://SHLSharedPlatform.open?id=ACMCO29010010&amp;param=%7B%22pId%22%3A%22ABFSF01020010P03%22%7D</span>
     </div>
     <div class="button-row">
-      <button class="btn" @click="navigateTo('shlic://SHLNavigator.open?id=CDCBCCO0200MP01')">이용기기 등록 테스트</button>
-      <span class="url-text">CDCBCCO0200MP01</span>
+      <input type="text" v-model="customUrl" class="input-text" placeholder="shlic://"/>
+      <button class="btn" @click="navigateTo(customUrl)">위 입력한 딥링크로 이동</button>
+      <span class="url-text">{{ customUrl }}</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      customUrl: '' // The text input for the custom URL
+    };
+  },
   methods: {
     navigateTo(url) {
-      window.location.href = url;
+      if (url) {
+        window.location.href = url;
+      } else {
+        alert('URL을 입력하세요.');
+      }
     }
   }
 };
@@ -37,8 +48,16 @@ export default {
   flex-direction: column;
   height: 100vh;
   padding: 10px;
-  width: 100%; /* Ensure the container is full width */
+  width: 100%;
   box-sizing: border-box;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
 }
 
 .button-row {
@@ -46,7 +65,7 @@ export default {
   flex-direction: column;
   align-items: center;
   margin: 10px 0;
-  width: 100%; /* Ensure the button-row takes full width */
+  width: 100%;
 }
 
 .btn {
@@ -57,13 +76,24 @@ export default {
   border-radius: 5px;
   background-color: #f0f0f0;
   transition: background-color 0.2s ease;
-  width: 100%; /* Default for mobile */
-  max-width: 100%; /* Ensure no overflow beyond the container */
-  box-sizing: border-box; /* Ensures proper padding behavior */
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .btn:hover {
   background-color: #e0e0e0;
+}
+
+.input-text {
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
 }
 
 .url-text {
@@ -71,26 +101,35 @@ export default {
   color: #555;
   display: block;
   margin-top: 5px;
-  word-break: break-all; /* Break long URLs if necessary */
-  width: 100%; /* Ensure text takes full width */
-  text-align: center; /* Center the text for a cleaner look */
+  word-break: break-all;
+  width: 100%;
+  text-align: center;
 }
 
-/* Media queries for larger screens (e.g., PC) */
+/* Media queries for larger screens */
 @media (min-width: 768px) {
   .btn {
-    width: 500px; /* On larger screens, limit the button width to 500px */
+    width: 500px;
+  }
+
+  .input-text {
+    width: 500px;
   }
 }
 
 @media (max-width: 600px) {
   .btn {
-    font-size: 14px; /* Smaller font size for mobile */
-    padding: 10px 18px; /* Slightly smaller padding for mobile */
+    font-size: 14px;
+    padding: 10px 18px;
+  }
+
+  .input-text {
+    font-size: 14px;
+    padding: 8px;
   }
 
   .url-text {
-    font-size: 12px; /* Smaller font size for mobile */
+    font-size: 12px;
   }
 }
 </style>
