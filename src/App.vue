@@ -13,8 +13,8 @@
       <span class="url-text">shlic://SHLSharedPlatform.open?id=ACMCO29010010&amp;param=%7B%22pId%22%3A%22ABFSF01020010P03%22%7D</span>
     </div>
     <div class="button-row">
-      <button class="btn" @click="navigateTo('https://example.com/page4')">Button 4</button>
-      <span class="url-text">https://example.com/page4</span>
+      <button class="btn" @click="navigateTo('shlic://SHLNavigator.open?id=CDCBCCO0200MP01')">이용기기 등록 테스트</button>
+      <span class="url-text">CDCBCCO0200MP01</span>
     </div>
   </div>
 </template>
