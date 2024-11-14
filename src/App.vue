@@ -22,7 +22,11 @@
     <!-- EditText1 for screen name -->
     <div class="input-row">
       <label for="screenName">화면명</label>
-      <input type="text" id="screenName" v-model="screenName" class="input-text" placeholder="Enter screen name (?id=CDCBCCO0700NP02)" />
+      <input list="screenIds" id="screenName" v-model="screenName" class="input-text" placeholder="Enter screen name (?id=CDCBCCO0700NP02)" />
+      <!-- Datalist for autocomplete suggestions -->
+      <datalist id="screenIds">
+        <option v-for="id in screenIdList" :key="id" :value="id">{{ id }}</option>
+      </datalist>
     </div>
 
     <!-- EditText2 for parameter -->
@@ -48,7 +52,39 @@ export default {
   data() {
     return {
       screenName: '', // Variable for the screen name (EditText1)
-      param: ''       // Variable for the parameter (EditText2)
+      param: '',      // Variable for the parameter (EditText2)
+      // List of screen IDs for autocomplete
+      screenIdList: [
+        "CDCBCCO0500NP03",
+        "CDCBCCO0500NP17",
+        "CDCBCCO0500NP18",
+        "CDCBCCO0500NP19",
+        "CDCBCCO0500NP20",
+        "CDCBCCO0500NP25",
+        "CDCBCCO0500NP26",
+        "CDCBCCO0500NP29",
+        "CDCBCCO0700NM01",
+        "CDCBCCO0700NM02",
+        "CDCBCCO0700NP02",
+        "CDCBCCO0700NP12",
+        "CDCBCLI0100NM01",
+        "CDCBCLI0100NP01",
+        "CDCBCLI0100NP02",
+        "CDCBCLI0100NP03",
+        "CDCBCLI0100NP04",
+        "CDCBCLI0100NP05",
+        "CDCBCLI0100NP06",
+        "CDCBCLI0100NP07",
+        "CDCBCLI0100NP08",
+        "CDCBCLI0100NP13",
+        "CDCBCLI0100NP16",
+        "CDCBCLI0100NP17",
+        "CDCBCLI0100NP18",
+        "CDCBCLI0100NP19",
+        "CDCBCLI0100NP20",
+        "CDCBCLI0100NP21",
+        "CDCBCLI0200NP03"
+      ]
     };
   },
   computed: {
